@@ -54,20 +54,26 @@ npm run dev
 
 **That's it!** Your local development server will be running at `http://localhost:8080`
 
-### 🔧 Environment Setup (Optional but Recommended)
+### 🔧 Environment Setup (Required for Full Functionality)
 
-For full functionality, create a `.env` file:
+Create a `.env` file in the project root with your own credentials:
 
 ```bash
-# Essential Configuration
+# Chain Configuration
 VITE_CHAIN_ID=11155111
 VITE_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_KEY
+
+# Wallet Connect Configuration
 VITE_WALLET_CONNECT_PROJECT_ID=YOUR_WALLET_CONNECT_PROJECT_ID
 
 # Contract Addresses (Update after deployment)
-VITE_CONTRACT_ADDRESS=0x...
-VITE_FHE_CONTRACT_ADDRESS=0x...
+VITE_CONTRACT_ADDRESS=YOUR_DEPLOYED_CONTRACT_ADDRESS
+VITE_FHE_CONTRACT_ADDRESS=YOUR_FHE_CONTRACT_ADDRESS
 ```
+
+> **📖 Need help?** Check out our detailed [Setup Guide](./SETUP.md) for step-by-step instructions on obtaining API keys and configuring your environment.
+
+> **⚠️ Security Note**: Never commit your `.env` file to version control. Use `.env.example` for sharing configuration templates.
 
 ## 🎼 Smart Contract Magic
 
@@ -93,16 +99,32 @@ npx hardhat run scripts/deploy.js --network sepolia
 
 > **Pro Tip**: Start with Sepolia testnet to experiment without real ETH costs!
 
-## Environment Variables
+## 🔐 Environment Variables Reference
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `VITE_CHAIN_ID` | Ethereum chain ID (11155111 for Sepolia) | Yes |
-| `VITE_RPC_URL` | RPC endpoint URL | Yes |
-| `VITE_WALLET_CONNECT_PROJECT_ID` | WalletConnect project ID | Yes |
-| `VITE_INFURA_API_KEY` | Infura API key | Optional |
-| `VITE_CONTRACT_ADDRESS` | Deployed contract address | Yes |
-| `VITE_FHE_CONTRACT_ADDRESS` | FHE-enabled contract address | Yes |
+| Variable | Description | Required | Example |
+|----------|-------------|----------|---------|
+| `VITE_CHAIN_ID` | Ethereum chain ID | Yes | `11155111` (Sepolia) |
+| `VITE_RPC_URL` | RPC endpoint URL | Yes | `https://sepolia.infura.io/v3/YOUR_KEY` |
+| `VITE_WALLET_CONNECT_PROJECT_ID` | WalletConnect project ID | Yes | Get from [WalletConnect Cloud](https://cloud.walletconnect.com) |
+| `VITE_CONTRACT_ADDRESS` | Deployed contract address | Yes | `0x...` (after deployment) |
+| `VITE_FHE_CONTRACT_ADDRESS` | FHE-enabled contract address | Yes | `0x...` (after deployment) |
+
+### 🔑 How to Get Your API Keys
+
+1. **Infura API Key**: 
+   - Visit [infura.io](https://infura.io)
+   - Create a free account
+   - Create a new project
+   - Copy your project ID
+
+2. **WalletConnect Project ID**:
+   - Visit [cloud.walletconnect.com](https://cloud.walletconnect.com)
+   - Create a new project
+   - Copy your project ID
+
+3. **Contract Addresses**:
+   - Deploy your contracts using the deployment guide below
+   - Copy the deployed contract addresses
 
 ## Project Structure
 
