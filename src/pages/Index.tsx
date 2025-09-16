@@ -3,9 +3,24 @@ import TotalEarnings from "@/components/TotalEarnings";
 import RoyaltyCard from "@/components/RoyaltyCard";
 import PaymentSyncDemo from "@/components/PaymentSyncDemo";
 import EncryptionViewer from "@/components/EncryptionViewer";
+import { SongUpload } from "@/components/SongUpload";
+import { PlayRecorder } from "@/components/PlayRecorder";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState } from "react";
 
 const Index = () => {
+  const [createdSongs, setCreatedSongs] = useState<Array<{id: number, title: string, artist: string}>>([]);
+
+  const handleSongCreated = (songId: number) => {
+    // In a real app, you would fetch the song details from the contract
+    const newSong = {
+      id: songId,
+      title: "New Song", // This would come from the contract
+      artist: "Artist Name" // This would come from the contract
+    };
+    setCreatedSongs(prev => [...prev, newSong]);
+  };
+
   const royaltyData = [
     {
       title: "Spotify Royalties",
@@ -63,8 +78,10 @@ const Index = () => {
       
       <main className="container mx-auto px-6 py-8 space-y-8">
         <Tabs defaultValue="dashboard" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
+          <TabsList className="grid w-full grid-cols-5 mb-8">
             <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+            <TabsTrigger value="upload">Upload Song</TabsTrigger>
+            <TabsTrigger value="play">Play Music</TabsTrigger>
             <TabsTrigger value="sync-demo">Sync Demo</TabsTrigger>
             <TabsTrigger value="encryption">Encryption</TabsTrigger>
           </TabsList>
@@ -118,6 +135,50 @@ const Index = () => {
                 </p>
               </div>
             </section>
+          </TabsContent>
+          
+          <TabsContent value="upload" className="space-y-8">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-foreground mb-4">
+                Upload Your Music
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Create encrypted songs on the blockchain with FHE protection. 
+                Your metadata and royalty information will be securely stored and encrypted.
+              </p>
+            </div>
+            <SongUpload onSongCreated={handleSongCreated} />
+          </TabsContent>
+
+          <TabsContent value="play" className="space-y-8">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-foreground mb-4">
+                Play & Record
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Listen to music and record your plays with encrypted data. 
+                Your listening habits remain private while contributing to artist earnings.
+              </p>
+            </div>
+            
+            {createdSongs.length > 0 ? (
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {createdSongs.map((song) => (
+                  <PlayRecorder
+                    key={song.id}
+                    songId={song.id}
+                    songTitle={song.title}
+                    artist={song.artist}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">
+                  No songs available. Upload a song first to start playing!
+                </p>
+              </div>
+            )}
           </TabsContent>
           
           <TabsContent value="sync-demo">
